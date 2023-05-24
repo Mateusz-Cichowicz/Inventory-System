@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class InventoryUI : MonoBehaviour
+{
+    public Transform itemsParent;
+    public GameObject itemButtonPrefab;
+
+    private PlayerInventory playerInventory;
+    private void Start()
+    {
+        // Get a reference to the PlayerInventory component
+        playerInventory = FindObjectOfType<PlayerInventory>();
+
+        // Populate the inventory UI
+        PopulateInventoryUI();
+    }
+    private void PopulateInventoryUI()
+    {
+
+        // Clear existing items in the UI
+        foreach (Transform child in itemsParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Iterate through the player's items and create UI elements for each item
+        for (int i = 0; i < playerInventory.GetItemCount(); i++)
+        {
+            Item item = playerInventory.GetItemAtIndex(i);
+            GameObject itemButton = Instantiate(itemButtonPrefab, itemsParent);
+            Button button = itemButton.GetComponent<Button>();
+
+            // Set the button's label or image to represent the item
+            TMP_Text buttonText = itemButton.GetComponentInChildren<TMP_Text>();
+            buttonText.text = item.name;
+
+            // Add a click event to the button to display item details
+            button.onClick.AddListener(() =>
+            {
+                ShowItemDetails(item);
+            });
+        }
+    }
+    private void ShowItemDetails(Item item)
+    {
+        Debug.Log(item.Description);
+        // Display the item's details, such as the description, in a separate UI panel or text field
+        // You can access the item's properties, such as item.description, to display the relevant information
+    }
+}
