@@ -10,9 +10,9 @@ public class PlayerInventory : MonoBehaviour
     private void Start()
     {
         AddItem(dataBase.items[0]);
+        AddItem(dataBase.items[1]);
         AddItem(dataBase.items[0]);
-        AddItem(dataBase.items[0]);
-        AddItem(dataBase.items[0]);
+        AddItem(dataBase.items[1]);
     }
     public void AddItem(Item item)
     {

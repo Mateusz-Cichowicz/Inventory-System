@@ -9,4 +9,6 @@ public class Item : MonoBehaviour
     public string Description;
     public int Quantity;
     public Sprite Icon;
+
+
 }

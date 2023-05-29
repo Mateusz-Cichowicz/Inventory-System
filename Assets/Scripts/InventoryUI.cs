@@ -8,7 +8,7 @@ public class InventoryUI : MonoBehaviour
 {
     public Transform itemsParent;
     public GameObject itemButtonPrefab;
-
+    public GameObject DescritptionDisplay;
     private PlayerInventory playerInventory;
     private void Start()
     {
@@ -32,22 +32,29 @@ public class InventoryUI : MonoBehaviour
         {
             Item item = playerInventory.GetItemAtIndex(i);
             GameObject itemButton = Instantiate(itemButtonPrefab, itemsParent);
+            Image image = itemButton.GetComponent<Image>();
+            image.sprite = item.Icon;
             Button button = itemButton.GetComponent<Button>();
 
             // Set the button's label or image to represent the item
             TMP_Text buttonText = itemButton.GetComponentInChildren<TMP_Text>();
             buttonText.text = item.name;
 
+
             // Add a click event to the button to display item details
             button.onClick.AddListener(() =>
             {
                 ShowItemDetails(item);
+
             });
         }
     }
     private void ShowItemDetails(Item item)
     {
-        Debug.Log(item.Description);
+        DescritptionDisplay.SetActive(true);
+        TMP_Text description = DescritptionDisplay.GetComponentInChildren<TMP_Text>();
+        description.text = item.Description;
+        Debug.Log(item);
         // Display the item's details, such as the description, in a separate UI panel or text field
         // You can access the item's properties, such as item.description, to display the relevant information
     }
