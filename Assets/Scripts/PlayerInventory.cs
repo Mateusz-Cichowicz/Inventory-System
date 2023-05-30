@@ -18,6 +18,10 @@ public class PlayerInventory : MonoBehaviour
     {
         inventoryItems.Add(item);
     }
+    public void AddRandomItem() 
+    {
+        inventoryItems.Add(dataBase.items[Random.Range(0, dataBase.items.Length)]);
+    }
 
     public void RemoveItem(Item item)
     {
