@@ -7,6 +7,7 @@ public class PlayerInventory : MonoBehaviour
 {
     private List<Item> inventoryItems = new List<Item>();
     public ItemDatabase dataBase;
+    public event System.Action<Item> OnInventoryCountChanged;
     private void Start()
     {
         AddItem(dataBase.items[0]);
@@ -14,18 +15,29 @@ public class PlayerInventory : MonoBehaviour
         AddItem(dataBase.items[0]);
         AddItem(dataBase.items[1]);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z)) 
+        {
+            AddRandomItem();
+        }
+    }
     public void AddItem(Item item)
     {
         inventoryItems.Add(item);
     }
     public void AddRandomItem() 
     {
-        inventoryItems.Add(dataBase.items[Random.Range(0, dataBase.items.Length)]);
+        Item item = dataBase.items[Random.Range(0, dataBase.items.Length)];
+        inventoryItems.Add(item);
+        OnInventoryCountChanged?.Invoke(item);
     }
 
     public void RemoveItem(Item item)
     {
         inventoryItems.Remove(item);
+        
     }
 
     public Item GetItemAtIndex(int index)

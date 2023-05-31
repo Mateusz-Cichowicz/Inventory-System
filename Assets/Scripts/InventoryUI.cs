@@ -14,13 +14,12 @@ public class InventoryUI : MonoBehaviour
     {
         // Get a reference to the PlayerInventory component
         playerInventory = FindObjectOfType<PlayerInventory>();
-
+        playerInventory.OnInventoryCountChanged += UpdateItems;
         // Populate the inventory UI
         PopulateInventoryUI();
     }
     private void PopulateInventoryUI()
     {
-
         // Clear existing items in the UI
         foreach (Transform child in itemsParent)
         {
@@ -31,31 +30,33 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < playerInventory.GetItemCount(); i++)
         {
             Item item = playerInventory.GetItemAtIndex(i);
-            GameObject itemButton = Instantiate(itemButtonPrefab, itemsParent);
-            Image image = itemButton.GetComponent<Image>();
-            image.sprite = item.Icon;
-            Button button = itemButton.GetComponent<Button>();
-
-            // Set the button's label or image to represent the item
-            TMP_Text buttonText = itemButton.GetComponentInChildren<TMP_Text>();
-            buttonText.text = item.name;
-
-
-            // Add a click event to the button to display item details
-            button.onClick.AddListener(() =>
-            {
-                ShowItemDetails(item);
-
-            });
+            UpdateItems(item);
         }
+
+    }
+    private void UpdateItems(Item item) 
+    {
+        GameObject itemButton = Instantiate(itemButtonPrefab, itemsParent);
+        Image image = itemButton.GetComponent<Image>();
+        image.sprite = item.Icon;
+        Button button = itemButton.GetComponent<Button>();
+
+        // Set the button's label or image to represent the item
+        TMP_Text buttonText = itemButton.GetComponentInChildren<TMP_Text>();
+        buttonText.text = item.name;
+
+
+        // Add a click event to the button to display item details
+        button.onClick.AddListener(() =>
+        {
+            ShowItemDetails(item);
+
+        });
     }
     private void ShowItemDetails(Item item)
     {
         DescritptionDisplay.SetActive(true);
         TMP_Text description = DescritptionDisplay.GetComponentInChildren<TMP_Text>();
         description.text = item.Description;
-        Debug.Log(item);
-        // Display the item's details, such as the description, in a separate UI panel or text field
-        // You can access the item's properties, such as item.description, to display the relevant information
     }
 }
