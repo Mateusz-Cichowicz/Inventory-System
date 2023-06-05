@@ -7,14 +7,14 @@ using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     public Transform itemsParent;
-    public GameObject itemButtonPrefab;
+    public GameObject itemPrefab;
     public GameObject DescritptionDisplay;
     private PlayerInventory playerInventory;
     private void Start()
     {
         // Get a reference to the PlayerInventory component
         playerInventory = FindObjectOfType<PlayerInventory>();
-        playerInventory.OnInventoryCountChanged += UpdateItems;
+        playerInventory.OnInventoryCountChanged += PopulateInventoryUI;
         // Populate the inventory UI
         PopulateInventoryUI();
     }
@@ -30,28 +30,30 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < playerInventory.GetItemCount(); i++)
         {
             Item item = playerInventory.GetItemAtIndex(i);
-            UpdateItems(item);
+            GameObject itemObj = Instantiate(itemPrefab, itemsParent);
+            Button[] btnList = itemObj.GetComponentsInChildren<Button>();
+            Button btnIcon = btnList[1].GetComponent<Button>();
+            Image image = btnIcon.GetComponent<Image>();
+            image.sprite = item.Icon;
+
+            // Set the button's label or image to represent the item
+            TMP_Text btnIconText = btnIcon.GetComponentInChildren<TMP_Text>();
+            btnIconText.text = item.Name;
+
+
+            // Add a click event to the button to display item details
+            btnIcon.onClick.AddListener(() =>
+            {
+                ShowItemDetails(item);
+            });
+
+            Button btnRemove = btnList[0].GetComponent<Button>();
+            btnRemove.onClick.AddListener(() =>
+            {
+                playerInventory.RemoveItem(item);
+            });
         }
 
-    }
-    private void UpdateItems(Item item) 
-    {
-        GameObject itemButton = Instantiate(itemButtonPrefab, itemsParent);
-        Image image = itemButton.GetComponent<Image>();
-        image.sprite = item.Icon;
-        Button button = itemButton.GetComponent<Button>();
-
-        // Set the button's label or image to represent the item
-        TMP_Text buttonText = itemButton.GetComponentInChildren<TMP_Text>();
-        buttonText.text = item.name;
-
-
-        // Add a click event to the button to display item details
-        button.onClick.AddListener(() =>
-        {
-            ShowItemDetails(item);
-
-        });
     }
     private void ShowItemDetails(Item item)
     {

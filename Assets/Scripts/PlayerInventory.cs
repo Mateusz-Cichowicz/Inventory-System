@@ -7,7 +7,7 @@ public class PlayerInventory : MonoBehaviour
 {
     private List<Item> inventoryItems = new List<Item>();
     public ItemDatabase dataBase;
-    public event System.Action<Item> OnInventoryCountChanged;
+    public event System.Action OnInventoryCountChanged;
     private void Start()
     {
         AddItem(dataBase.items[0]);
@@ -31,13 +31,13 @@ public class PlayerInventory : MonoBehaviour
     {
         Item item = dataBase.items[Random.Range(0, dataBase.items.Length)];
         inventoryItems.Add(item);
-        OnInventoryCountChanged?.Invoke(item);
+        OnInventoryCountChanged?.Invoke();
     }
 
     public void RemoveItem(Item item)
     {
         inventoryItems.Remove(item);
-        
+        OnInventoryCountChanged?.Invoke();
     }
 
     public Item GetItemAtIndex(int index)
