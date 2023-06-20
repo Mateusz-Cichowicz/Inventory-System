@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    [SerializeField]
     private List<Item> inventoryItems = new List<Item>();
     public ItemDatabase dataBase;
-    public event System.Action OnInventoryCountChanged;
+    public event System.Action<Item, int> OnInventoryCountChanged;
     private void Start()
     {
         AddItem(dataBase.items[0]);
@@ -31,13 +32,13 @@ public class PlayerInventory : MonoBehaviour
     {
         Item item = dataBase.items[Random.Range(0, dataBase.items.Length)];
         inventoryItems.Add(item);
-        OnInventoryCountChanged?.Invoke();
-    }
+        OnInventoryCountChanged?.Invoke(item, 1);
+    }// za duzo dodaje rework!
 
     public void RemoveItem(Item item)
     {
         inventoryItems.Remove(item);
-        OnInventoryCountChanged?.Invoke();
+        OnInventoryCountChanged?.Invoke(item, -1);
     }
 
     public Item GetItemAtIndex(int index)
