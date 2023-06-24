@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 public class PlayerInventory : MonoBehaviour
@@ -9,10 +10,11 @@ public class PlayerInventory : MonoBehaviour
     private List<Item> inventoryItems = new List<Item>();
     public ItemDatabase dataBase;
     public event System.Action<Item, int> OnInventoryCountChanged;
+    public event System.Action OnInventorySorted;
     private void Start()
     {
-        AddItem(dataBase.items[0]);
         AddItem(dataBase.items[1]);
+        AddItem(dataBase.items[0]);
         AddItem(dataBase.items[0]);
         AddItem(dataBase.items[1]);
     }
@@ -33,7 +35,7 @@ public class PlayerInventory : MonoBehaviour
         Item item = dataBase.items[Random.Range(0, dataBase.items.Length)];
         inventoryItems.Add(item);
         OnInventoryCountChanged?.Invoke(item, 1);
-    }// za duzo dodaje rework!
+    }
 
     public void RemoveItem(Item item)
     {
@@ -50,9 +52,14 @@ public class PlayerInventory : MonoBehaviour
 
         return null;
     }
-
     public int GetItemCount()
     {
         return inventoryItems.Count;
+    }
+
+    public void SortInventory() 
+    {
+        inventoryItems = inventoryItems.OrderBy(x => x.Name).ToList();
+        OnInventorySorted.Invoke();
     }
 }

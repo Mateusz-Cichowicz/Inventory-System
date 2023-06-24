@@ -15,22 +15,35 @@ public class InventoryUI : MonoBehaviour
         // Get a reference to the PlayerInventory component
         playerInventory = FindObjectOfType<PlayerInventory>();
         
-        playerInventory.OnInventoryCountChanged += AddRemoveItem;
         if (playerInventory == null)
         {
             Debug.LogError("PlayerInventory component not found.");
             return;
         }
+
+        playerInventory.OnInventoryCountChanged += AddRemoveItem;
+        playerInventory.OnInventorySorted += StartPopulateInventoryCoroutine;
+
         if (itemsParent == null)
         {
             Debug.LogError("ItemsParent component not found.");
             return;
         }
         // Populate the inventory UI
-        PopulateInventoryUI();
+        StartCoroutine(PopulateInventoryUI());
     }
-    private void PopulateInventoryUI()
+
+    private void StartPopulateInventoryCoroutine() 
     {
+        StartCoroutine(PopulateInventoryUI());
+    }
+    IEnumerator PopulateInventoryUI()
+    {
+        foreach (Transform obj in itemsParent)
+        {
+            Destroy(obj.gameObject);
+        }
+        yield return new WaitForEndOfFrame();
         // Iterate through the player's items and create UI elements for each item
         for (int i = 0; i < playerInventory.GetItemCount(); i++)
         {
@@ -41,7 +54,6 @@ public class InventoryUI : MonoBehaviour
                 ChangeQuantity(item, 1);
                 continue;
             }
-
             InstantiateItem(item);
         }
     }
