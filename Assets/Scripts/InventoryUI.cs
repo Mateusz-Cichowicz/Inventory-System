@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class InventoryUI : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject descritptionDisplay;
     private PlayerInventory playerInventory;
+    [SerializeField]
+    private List<Sprite> sprites;
     private void Start()
     {
         // Get a reference to the PlayerInventory component
@@ -54,6 +57,7 @@ public class InventoryUI : MonoBehaviour
                 ChangeQuantity(item, 1);
                 continue;
             }
+
             InstantiateItem(item);
         }
     }
@@ -63,15 +67,11 @@ public class InventoryUI : MonoBehaviour
         GameObject itemObj = Instantiate(itemPrefab, itemsParent);
 
         itemObj.name = item.Name;
-        Item itemObjValues = itemObj.GetComponent<Item>();
-        itemObjValues.Name = item.Name;
-        itemObjValues.Icon = item.Icon;
-        itemObjValues.Description = item.Description;
 
         Button[] btnList = itemObj.GetComponentsInChildren<Button>();
         Button btnIcon = btnList[1].GetComponent<Button>();
         Image image = btnIcon.GetComponent<Image>();
-        image.sprite = item.Icon;
+        image.sprite = sprites.Find(x => x.name == item.Name);
 
         // Set the button's label or image to represent the item
         TMP_Text btnIconText = btnIcon.GetComponentInChildren<TMP_Text>();
@@ -93,12 +93,16 @@ public class InventoryUI : MonoBehaviour
     private void ChangeQuantity(Item item, int amount)
     {
         Transform tempItemTransform = itemsParent.Find(item.Name);
-        Item tempItem = tempItemTransform.GetComponent<Item>();
-        tempItem.Quantity += amount;
+
+
         if (tempItemTransform.GetComponentInChildren<TMP_Text>()) {
-            tempItemTransform.GetComponentInChildren<TMP_Text>().text = tempItem.Quantity.ToString();
+            TMP_Text text = tempItemTransform.GetComponentInChildren<TMP_Text>();
+            int i;
+            Int32.TryParse(text.text, out i);
+            i += amount;
+            text.text = i.ToString();
         }
-        if (tempItem.Quantity == 0) 
+        if (tempItemTransform.GetComponentInChildren<TMP_Text>().text == "0") 
         {
             Destroy(tempItemTransform.gameObject);
         }

@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Item Database
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 8150242422726295261, guid: 34670e1fc9272cf48859232ebe7263ce, type: 3}
-  - {fileID: 7998512496850028065, guid: 16a751d56f7fafb40bc0822232b45247, type: 3}
+  - Name: Rope
+    Description: roping
+    Quantity: 1
+    Icon: {fileID: 21300000, guid: ba977235d9f9d5447b87c73aaf9333b9, type: 3}
+  - Name: Torch
+    Description: torching
+    Quantity: 1
+    Icon: {fileID: 21300000, guid: d2649b88bd42cd440aa9528558401162, type: 3}

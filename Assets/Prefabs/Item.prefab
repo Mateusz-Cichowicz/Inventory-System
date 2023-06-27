@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 6120772753302659819}
   - component: {fileID: 9199607543246466699}
   - component: {fileID: 8523585304980510324}
-  - component: {fileID: 7998512496850028065}
   m_Layer: 5
-  m_Name: Torch
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,22 +79,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7998512496850028065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037179649529467477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcefe2406e631d84f87170c3e53d0d49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Torch
-  Description: Iluminates surroundings
-  Quantity: 1
-  Icon: {fileID: 21300000, guid: d2649b88bd42cd440aa9528558401162, type: 3}
 --- !u!1 &4145448212403098307
 GameObject:
   m_ObjectHideFlags: 0

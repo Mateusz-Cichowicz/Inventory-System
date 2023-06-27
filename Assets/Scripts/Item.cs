@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
-public class Item : MonoBehaviour
+[System.Serializable]
+public class Item
 {
     public string Name;
     public string Description;
     public int Quantity;
-    public Sprite Icon;
-
-
+    //public Sprite Icon;
 }
