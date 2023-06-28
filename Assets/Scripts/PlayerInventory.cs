@@ -12,10 +12,6 @@ public class PlayerInventory : MonoBehaviour
     public event System.Action OnInventorySorted;
     private string jsonData;
 
-    private void Start()
-    {
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z)) 
@@ -28,6 +24,7 @@ public class PlayerInventory : MonoBehaviour
     public void AddItem(Item item)
     {
         inventoryItems.items.Add(item);
+        OnInventoryCountChanged?.Invoke(item, 1);
     }
     public void AddRandomItem() 
     {
@@ -48,7 +45,6 @@ public class PlayerInventory : MonoBehaviour
         {
             return inventoryItems.items[index];
         }
-
         return null;
     }
     public int GetItemCount()

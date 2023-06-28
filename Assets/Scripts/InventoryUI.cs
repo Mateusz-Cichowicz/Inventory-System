@@ -10,12 +10,13 @@ public class InventoryUI : MonoBehaviour
     public Transform itemsParent;
     public GameObject itemPrefab;
     public GameObject descritptionDisplay;
+
     private PlayerInventory playerInventory;
     [SerializeField]
     private List<Sprite> sprites;
+
     private void Start()
     {
-        // Get a reference to the PlayerInventory component
         playerInventory = FindObjectOfType<PlayerInventory>();
         
         if (playerInventory == null)
@@ -32,7 +33,7 @@ public class InventoryUI : MonoBehaviour
             Debug.LogError("ItemsParent component not found.");
             return;
         }
-        // Populate the inventory UI
+
         StartCoroutine(PopulateInventoryUI());
     }
 
@@ -47,7 +48,7 @@ public class InventoryUI : MonoBehaviour
             Destroy(obj.gameObject);
         }
         yield return new WaitForEndOfFrame();
-        // Iterate through the player's items and create UI elements for each item
+
         for (int i = 0; i < playerInventory.GetItemCount(); i++)
         {
             Item item = playerInventory.GetItemAtIndex(i);
@@ -73,11 +74,9 @@ public class InventoryUI : MonoBehaviour
         Image image = btnIcon.GetComponent<Image>();
         image.sprite = sprites.Find(x => x.name == item.Name);
 
-        // Set the button's label or image to represent the item
         TMP_Text btnIconText = btnIcon.GetComponentInChildren<TMP_Text>();
         btnIconText.text = item.Name;
 
-        // Add a click event to the button to display item details
         btnIcon.onClick.AddListener(() =>
         {
             ShowItemDetails(item);
@@ -93,7 +92,6 @@ public class InventoryUI : MonoBehaviour
     private void ChangeQuantity(Item item, int amount)
     {
         Transform tempItemTransform = itemsParent.Find(item.Name);
-
 
         if (tempItemTransform.GetComponentInChildren<TMP_Text>()) {
             TMP_Text text = tempItemTransform.GetComponentInChildren<TMP_Text>();
